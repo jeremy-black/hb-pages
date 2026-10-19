@@ -46,8 +46,8 @@ footer{color:var(--faint);font-size:12px;font-family:var(--mono);margin-top:38px
 .ptog{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
 .ptog label{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.04em;padding:8px 14px;border:1px solid var(--line);border-radius:999px;color:var(--sub);cursor:pointer}
 .pset{display:none}
-#p-w:checked~.ps-w,#p-m:checked~.ps-m,#p-f:checked~.ps-f,#p-a:checked~.ps-a{display:block}
-#p-w:checked~.ptog label[for=p-w],#p-m:checked~.ptog label[for=p-m],#p-f:checked~.ptog label[for=p-f],#p-a:checked~.ptog label[for=p-a]{background:var(--green);border-color:var(--green);color:#000}
+#p-w:checked~.ps-w,#p-m:checked~.ps-m,#p-l:checked~.ps-l,#p-f:checked~.ps-f,#p-a:checked~.ps-a{display:block}
+#p-w:checked~.ptog label[for=p-w],#p-m:checked~.ptog label[for=p-m],#p-l:checked~.ptog label[for=p-l],#p-f:checked~.ptog label[for=p-f],#p-a:checked~.ptog label[for=p-a]{background:var(--green);border-color:var(--green);color:#000}
 .phead{font-family:var(--disp);font-size:19px;font-weight:600;margin:2px 0 12px}
 .phead b{color:var(--green)}
 @media(max-width:640px){body{padding:18px 12px 40px}.tile{min-width:44%}header img{height:44px}.rtl{margin-left:0}}
@@ -85,7 +85,7 @@ footer{color:var(--faint);font-size:12px;font-family:var(--mono);margin-top:38px
   </g>
 </svg></div>
 <div><h1>Leadership board</h1>
-<div class="sub">aggregates only &middot; refreshed 19 Oct 2026, 16:57 (Berlin time)</div></div>
+<div class="sub">aggregates only &middot; refreshed 19 Oct 2026, 17:01 (Berlin time)</div></div>
 <a class="rtl" href="https://jeremy-black.github.io/ss-scoreboard/">Road to Legendary &#8599;</a></header>
 <h2>The journey to $100m</h2>
 <div class='voyage'>
@@ -206,10 +206,11 @@ footer{color:var(--faint);font-size:12px;font-family:var(--mono);margin-top:38px
 </div>
 <h2>Sales &middot; Reviews &middot; Tickets</h2>
 <div class='perwrap'>
-<input type='radio' name='per' id='p-w'><input type='radio' name='per' id='p-m' checked><input type='radio' name='per' id='p-f'><input type='radio' name='per' id='p-a'>
-<div class='ptog'><label for='p-w'>This week</label><label for='p-m'>This month</label><label for='p-f'>This FY</label><label for='p-a'>All time</label></div>
+<input type='radio' name='per' id='p-w'><input type='radio' name='per' id='p-m' checked><input type='radio' name='per' id='p-l'><input type='radio' name='per' id='p-f'><input type='radio' name='per' id='p-a'>
+<div class='ptog'><label for='p-w'>This week</label><label for='p-m'>This month</label><label for='p-l'>Last month</label><label for='p-f'>This FY</label><label for='p-a'>All time</label></div>
 <div class='pset ps-w'><div class='phead'>Week of 19 Oct &middot; <b>1 sale</b> so far</div><div class='grid'><div class='tile'><div class='n'>1</div><div class='l'>sales won</div></div><div class='tile'><div class='n'>$24,100</div><div class='l'>revenue won</div></div><div class='tile'><div class='n'>$24,100</div><div class='l'>avg deal (1 valued)</div></div><div class='tile'><div class='n'>0</div><div class='l'>reviews collected</div></div><div class='tile'><div class='n'>0</div><div class='l'>tickets opened</div></div><div class='tile'><div class='n'>0</div><div class='l'>tickets closed</div></div></div></div>
 <div class='pset ps-m'><div class='phead'>October 2026 &middot; <b>20 sales</b> so far &middot; last month 35</div><div class='grid'><div class='tile'><div class='n'>20</div><div class='l'>sales won</div></div><div class='tile'><div class='n'>$480,377</div><div class='l'>revenue won</div></div><div class='tile'><div class='n'>$25,283</div><div class='l'>avg deal (19 valued)</div></div><div class='tile'><div class='n'>6</div><div class='l'>reviews collected (avg 4.96)</div></div><div class='tile'><div class='n'>8</div><div class='l'>tickets opened</div></div><div class='tile'><div class='n'>8</div><div class='l'>tickets closed</div></div></div></div>
+<div class='pset ps-l'><div class='phead'>September 2026 &middot; <b>35 sales</b>, complete month</div><div class='grid'><div class='tile'><div class='n'>35</div><div class='l'>sales won</div></div><div class='tile'><div class='n'>$712,493</div><div class='l'>revenue won</div></div><div class='tile'><div class='n'>$20,357</div><div class='l'>avg deal (35 valued)</div></div><div class='tile'><div class='n'>19</div><div class='l'>reviews collected (avg 4.89)</div></div><div class='tile'><div class='n'>20</div><div class='l'>tickets opened</div></div><div class='tile'><div class='n'>19</div><div class='l'>tickets closed</div></div></div></div>
 <div class='pset ps-f'><div class='phead'>FY27 (from 1 Jul) &middot; <b>107 sales</b> so far</div><div class='grid'><div class='tile'><div class='n'>107</div><div class='l'>sales won</div></div><div class='tile'><div class='n'>$2,324,939</div><div class='l'>revenue won</div></div><div class='tile'><div class='n'>$22,355</div><div class='l'>avg deal (104 valued)</div></div><div class='tile'><div class='n'>50+</div><div class='l'>reviews collected (avg 4.96)</div></div><div class='tile'><div class='n'>59</div><div class='l'>tickets opened</div></div><div class='tile'><div class='n'>46</div><div class='l'>tickets closed</div></div></div></div>
 <div class='pset ps-a'><div class='phead'>Since Nov 2025, the CRM start &middot; <b>225 sales</b></div><div class='grid'><div class='tile'><div class='n'>225</div><div class='l'>sales won</div></div><div class='tile'><div class='n'>$5,226,487</div><div class='l'>revenue won</div></div><div class='tile'><div class='n'>$23,757</div><div class='l'>avg deal (220 valued)</div></div><div class='tile'><div class='n'>65</div><div class='l'>reviews collected (avg 4.96)</div></div><div class='tile'><div class='n'>59</div><div class='l'>tickets opened</div></div><div class='tile'><div class='n'>46</div><div class='l'>tickets closed</div></div></div></div>
 </div>
