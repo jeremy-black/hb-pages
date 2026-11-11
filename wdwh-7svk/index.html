@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>January spots</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTMiIGZpbGw9IiMwMDAwMDAiLz48ZyBmaWxsPSIjREJFMTIwIj48cmVjdCB4PSIyOC41IiB5PSIxMiIgd2lkdGg9IjciIGhlaWdodD0iMjUiIHJ4PSIxLjYiLz48cmVjdCB4PSIxOS41IiB5PSIyMSIgd2lkdGg9IjI1IiBoZWlnaHQ9IjciIHJ4PSIxLjYiLz48cmVjdCB4PSIxOS41IiB5PSI0MyIgd2lkdGg9IjI1IiBoZWlnaHQ9IjciIHJ4PSIxLjYiLz48L2c+PC9zdmc+">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400;700&family=Inter:wght@400;500&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<!--
+  Black Friday 2026: January install spots, for the office TV and the team's phones.
+  Reads bookings.json beside this page every minute:
+    {"total":20,"updated":"2026-11-11T02:40:00Z","bookings":[{"name":"Sam","date":"2027-01-14"}]}
+  Each booking fills the next box with the customer's FIRST name and install date. Only a
+  first name is ever shown, whatever the file holds: this page is public behind an unguessable path.
+  Preview with made-up bookings: add ?demo=7 to the address.
+-->
+<style>
+  :root { --g: #DBE120; --glow: 219, 225, 32;
+    --disp: Poppins, Montserrat, 'Segoe UI', sans-serif; --body: Inter, 'Helvetica Neue', Arial, sans-serif;
+    --mono: 'Anonymous Pro', Consolas, monospace; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #000; color: #fff; font-family: var(--body); }
+  body { display: flex; flex-direction: column; gap: 2.6vmin; padding: 4vmin 4vmin 3vmin; overflow: hidden; }
+
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 3vmin; }
+  .sticker { font-family: var(--mono); font-weight: 700; letter-spacing: .06em; white-space: nowrap;
+    font-size: clamp(13px, 2.6vmin, 30px); padding: .3em .8em; border: 3px solid var(--g); border-radius: 5px;
+    transform: rotate(-4deg); box-shadow: 0 0 10px rgba(var(--glow), .9), 0 0 32px rgba(var(--glow), .4); }
+  .logo { height: clamp(18px, 4vmin, 46px); }
+
+  .head { display: flex; align-items: center; gap: 3vmin; flex-wrap: wrap; }
+  .count { display: flex; align-items: baseline; font-family: var(--disp); font-weight: 700; line-height: .85; }
+  .num { font-size: clamp(64px, 15vmin, 190px); color: var(--g);
+    text-shadow: 0 0 12px rgba(var(--glow), .9), 0 0 50px rgba(var(--glow), .45); }
+  .of { font-size: clamp(26px, 6vmin, 76px); color: #666; margin-left: .15em; }
+  .l1 { font-family: var(--disp); font-weight: 600; font-size: clamp(20px, 4vmin, 48px); line-height: 1.1; }
+  .l2 { font-size: clamp(14px, 2.3vmin, 26px); color: #ccc; margin-top: .35em; }
+
+  .grid { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(5, 1fr); grid-auto-rows: 1fr; gap: 1.8vmin; }
+  .cell { border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: .4em; min-width: 0; min-height: 0; overflow: hidden; }
+  .cell.open { border: 3px solid var(--g);
+    box-shadow: 0 0 8px rgba(var(--glow), .9), 0 0 26px rgba(var(--glow), .4), inset 0 0 12px rgba(var(--glow), .3); }
+  .cell.open .n { font-family: var(--mono); font-weight: 700; font-size: clamp(14px, 3.2vmin, 38px); color: rgba(var(--glow), .5); }
+  .cell.booked { background: var(--g); color: #000; box-shadow: 0 0 16px rgba(var(--glow), .45); }
+  .cell .name { font-family: var(--disp); font-weight: 700; font-size: clamp(14px, 3.6vmin, 44px); line-height: 1.05; overflow-wrap: anywhere; }
+  .cell .date { font-family: var(--mono); font-weight: 700; font-size: clamp(11px, 2.3vmin, 28px); margin-top: .3em; }
+  .cell.new { animation: pop 1.1s ease-out 4; }
+  @keyframes pop { 0% { transform: scale(1.12); box-shadow: 0 0 70px rgba(var(--glow), 1); } 100% { transform: scale(1); } }
+
+  .foot { display: flex; justify-content: space-between; gap: 1em; font-family: var(--mono); font-size: clamp(11px, 1.7vmin, 20px); color: #999; }
+  .foot .warn { color: #F47A59; }
+  .off .count, .off .grid { visibility: hidden; }
+
+  /* A narrow strip beside Connecteam, or a phone */
+  @media (max-aspect-ratio: 4/5) {
+    .grid { grid-template-columns: repeat(4, 1fr); }
+    .head { flex-direction: column; align-items: flex-start; gap: 1.5vmin; }
+  }
+</style>
+</head>
+<body>
+  <div class="top">
+    <div class="sticker">BLACK FRIDAY</div>
+    <img class="logo" src="logo.svg" alt="Summit + Shore Energy">
+  </div>
+  <div class="head">
+    <div class="count"><span class="num">&nbsp;</span><span class="of"></span></div>
+    <div>
+      <div class="l1">January install spots booked</div>
+      <div class="l2">&nbsp;</div>
+    </div>
+  </div>
+  <div class="grid" role="list"></div>
+  <div class="foot"><span>2026 rebate lock, first 20 only</span><span class="stamp"></span></div>
+
+<script>
+(function () {
+  var body = document.body, grid = document.querySelector('.grid');
+  var num = document.querySelector('.num'), of = document.querySelector('.of');
+  var l1 = document.querySelector('.l1'), l2 = document.querySelector('.l2'), stamp = document.querySelector('.stamp');
+  var shown = -1;
+  var dayFmt = new Intl.DateTimeFormat('en-AU', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+  var stampFmt = new Intl.DateTimeFormat('en-AU', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', timeZone: 'Australia/Sydney' });
+
+  // First name only, and a plain YYYY-MM-DD date, whatever the file holds
+  function clean(b) {
+    var name = String((b && b.name) || '').trim().split(/\s+/)[0].slice(0, 16);
+    var date = /^\d{4}-\d{2}-\d{2}$/.test(b && b.date) ? b.date : '';
+    return { name: name, date: date };
+  }
+  function day(iso) {
+    if (!iso) return 'Date to come';
+    var p = iso.split('-');
+    return dayFmt.format(new Date(Date.UTC(+p[0], +p[1] - 1, +p[2], 12))).replace(',', '');
+  }
+
+  function render(d) {
+    var total = parseInt(d.total, 10);
+    if (!(total > 0 && total <= 50)) total = 20;
+    var list = (Array.isArray(d.bookings) ? d.bookings : []).map(clean).filter(function (b) { return b.name; }).slice(0, total);
+    var left = total - list.length;
+    body.classList.remove('off');
+    num.textContent = list.length;
+    of.textContent = '/' + total;
+    l1.textContent = left === 0 ? 'All ' + total + ' January spots booked' : 'January install spots booked';
+    l2.textContent = left === 0 ? 'The Black Friday rebate lock is full' : left + (left === 1 ? ' spot left' : ' spots left') + ' at the 2026 rebate';
+    grid.innerHTML = '';
+    for (var i = 0; i < total; i++) {
+      var c = document.createElement('div');
+      c.setAttribute('role', 'listitem');
+      if (i < list.length) {
+        c.className = 'cell booked' + (shown >= 0 && i >= shown ? ' new' : '');
+        var n = document.createElement('div'); n.className = 'name'; n.textContent = list[i].name;
+        var t = document.createElement('div'); t.className = 'date'; t.textContent = day(list[i].date);
+        c.appendChild(n); c.appendChild(t);
+      } else {
+        c.className = 'cell open';
+        var k = document.createElement('div'); k.className = 'n'; k.textContent = i + 1;
+        c.appendChild(k);
+      }
+      grid.appendChild(c);
+    }
+    shown = list.length;
+    var when = new Date(d.updated);
+    stamp.textContent = isNaN(when) ? '' : 'Updated ' + stampFmt.format(when);
+  }
+
+  function load() {
+    fetch('bookings.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(render)
+      .catch(function () {
+        if (shown < 0) {   // never loaded: show no number rather than a wrong one
+          body.classList.add('off');
+          l1.textContent = 'Cannot reach the spots count right now';
+          l2.textContent = 'It will retry every minute.';
+        }
+        stamp.innerHTML = '<span class="warn">Offline, retrying</span>';
+      });
+  }
+
+  var demo = parseInt(new URLSearchParams(location.search).get('demo'), 10);
+  if (demo >= 0) {   // preview only: made-up names and dates
+    var names = ['Sam', 'Alex', 'Chris', 'Jo', 'Pat', 'Mel', 'Tom', 'Kim', 'Lee', 'Ash', 'Max', 'Bec', 'Dan', 'Liv', 'Ben', 'Amy', 'Gus', 'Zoe', 'Ned', 'Ivy'];
+    var b = [];
+    for (var i = 0; i < Math.min(demo, 20); i++) b.push({ name: names[i], date: '2027-01-' + ('0' + (5 + i)).slice(-2) });
+    return render({ total: 20, updated: new Date().toISOString(), bookings: b });
+  }
+  load();
+  setInterval(load, 60 * 1000);
+  setTimeout(function () { location.reload(); }, 6 * 3600 * 1000);   // pick up page changes on a TV left running
+})();
+</script>
+</body>
+</html>
