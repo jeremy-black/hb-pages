@@ -12,6 +12,7 @@
   Black Friday 2026: January install spots, for the office TV and the team's phones.
   Reads bookings.json beside this page every minute:
     {"total":20,"updated":"2026-11-11T02:40:00Z","bookings":[{"name":"Sam","date":"2027-01-14"}]}
+  A job over more than one day adds its last day: {"name":"Sam","date":"2027-01-11","end":"2027-01-12"}.
   Each booking fills the next box with the customer's FIRST name and install date. Only a
   first name is ever shown, whatever the file holds: this page is public behind an unguessable path.
   Preview with made-up bookings: add ?demo=7 to the address.
@@ -83,18 +84,27 @@
   var l1 = document.querySelector('.l1'), l2 = document.querySelector('.l2'), stamp = document.querySelector('.stamp');
   var shown = -1;
   var dayFmt = new Intl.DateTimeFormat('en-AU', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+  var wdFmt = new Intl.DateTimeFormat('en-AU', { weekday: 'short', timeZone: 'UTC' });
   var stampFmt = new Intl.DateTimeFormat('en-AU', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', timeZone: 'Australia/Sydney' });
 
   // First name only, and a plain YYYY-MM-DD date, whatever the file holds
   function clean(b) {
     var name = String((b && b.name) || '').trim().split(/\s+/)[0].slice(0, 16);
     var date = /^\d{4}-\d{2}-\d{2}$/.test(b && b.date) ? b.date : '';
-    return { name: name, date: date };
+    var end = date && /^\d{4}-\d{2}-\d{2}$/.test(b && b.end) && b.end > date ? b.end : '';
+    return { name: name, date: date, end: end };
   }
-  function day(iso) {
+  function utc(iso) { var p = iso.split('-'); return new Date(Date.UTC(+p[0], +p[1] - 1, +p[2], 12)); }
+  function one(d) { return dayFmt.format(d).replace(',', ''); }
+  // "Mon 14 Jan"; two days "Mon 11 + Tue 12 Jan"; longer "Mon 11 to Wed 13 Jan"
+  function day(iso, end) {
     if (!iso) return 'Date to come';
-    var p = iso.split('-');
-    return dayFmt.format(new Date(Date.UTC(+p[0], +p[1] - 1, +p[2], 12))).replace(',', '');
+    var a = utc(iso);
+    if (!end) return one(a);
+    var b = utc(end);
+    var join = Math.round((b - a) / 864e5) === 1 ? ' + ' : ' to ';
+    var first = a.getUTCMonth() === b.getUTCMonth() ? wdFmt.format(a) + ' ' + a.getUTCDate() : one(a);
+    return first + join + one(b);
   }
 
   function render(d) {
@@ -114,7 +124,7 @@
       if (i < list.length) {
         c.className = 'cell booked' + (shown >= 0 && i >= shown ? ' new' : '');
         var n = document.createElement('div'); n.className = 'name'; n.textContent = list[i].name;
-        var t = document.createElement('div'); t.className = 'date'; t.textContent = day(list[i].date);
+        var t = document.createElement('div'); t.className = 'date'; t.textContent = day(list[i].date, list[i].end);
         c.appendChild(n); c.appendChild(t);
       } else {
         c.className = 'cell open';
